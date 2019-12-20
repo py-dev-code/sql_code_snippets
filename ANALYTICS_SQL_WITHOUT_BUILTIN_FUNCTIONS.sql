@@ -59,6 +59,7 @@ commit;
 select department, listagg(emp_name, ',') within group (order by emp_id) emp_name
 from listagg_demo group by department;
 
+--ORACLE Syntax
 WITH t (emp_name, department, rn) AS 
   (SELECT emp_name, 
 		  department,
@@ -87,3 +88,28 @@ WHERE rn = (SELECT MAX(rn)
              WHERE c1.department = c2.department)
 ORDER BY 1;    
 			 
+--MySQL Syntax:
+with recursive c (dept, emp_name, rn) as
+  (select t.department,
+          t.emp_name,
+          t.rn
+     from (select t1.department,
+                  t1.emp_name,
+                  ROW_NUMBER() OVER (PARTITION BY t1.department ORDER BY t1.emp_name) as rn       
+             from listagg_demo t1) t
+    where t.rn = 1    
+   union all
+   select c.dept,
+          concat(c.emp_name,',',t.emp_name),
+          c.rn + 1
+     from c, (select t1.department as dept,
+				     t1.emp_name,
+				     ROW_NUMBER() OVER (PARTITION BY t1.department ORDER BY t1.emp_name) as rn       
+				from listagg_demo t1) t
+    where c.dept = t.dept
+      and c.rn + 1 = t.rn)
+select dept, 
+	   emp_name 
+  from c
+ where rn = (select max(rn) from c c2 where c.dept = c2.dept)
+ order by 1;

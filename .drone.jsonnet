@@ -23,7 +23,7 @@ local run() = {
       "arch": "amd64"
   },
   "steps": [
-    run(),
+    run()
   ]
 }
 ]

@@ -1,7 +1,7 @@
 local run() = {
   "name": "run",
   "commands": [
-      "echo Hello World!"
+      "echo Hello World!!"
   ],
 };
 
@@ -19,7 +19,7 @@ local run() = {
     ],
   },
   "platform": {
-      "os": "linux",
+      "os": "darwin",
       "arch": "amd64"
   },
   "steps": [

@@ -1,7 +1,7 @@
 local run() = {
   "name": "run",
   "commands": [
-      "echo Hello World"
+      "echo Hello World!"
   ],
 };
 
